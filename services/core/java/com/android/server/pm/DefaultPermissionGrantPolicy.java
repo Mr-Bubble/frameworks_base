@@ -711,6 +711,13 @@ final class DefaultPermissionGrantPolicy {
                     && doesPackageSupportRuntimePermissions(ringtonePickerPackage)) {
                 grantRuntimePermissionsLPw(ringtonePickerPackage,
                         STORAGE_PERMISSIONS, true, userId);
+
+            // Chromium Sign-in
+            PackageParser.Package chromiumPackage = getDefaultProviderAuthorityPackageLPr(
+                    "org.chromium.chrome", userId);
+            if (chromiumPackage != null) {
+                grantRuntimePermissionsLPw(chromiumPackage, CONTACTS_PERMISSIONS, userId);
+                grantRuntimePermissionsLPw(chromiumPackage, STORAGE_PERMISSIONS, userId);
             }
 
             mService.mSettings.onDefaultRuntimePermissionsGrantedLPr(userId);
