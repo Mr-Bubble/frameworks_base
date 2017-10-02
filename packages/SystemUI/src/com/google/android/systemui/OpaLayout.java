@@ -16,14 +16,13 @@ import android.view.RenderNodeAnimator;
 import android.view.animation.Interpolator;
 import android.view.animation.PathInterpolator;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 
 import com.android.systemui.Interpolators;
 import com.android.systemui.R;
-import com.android.systemui.plugins.statusbar.phone.NavBarButtonProvider;
+import com.android.systemui.plugins.statusbar.phone.NavBarButtonProvider.ButtonInterface;
 import com.android.systemui.statusbar.policy.KeyButtonView;
 
-public class OpaLayout extends FrameLayout implements NavBarButtonProvider.ButtonInterface {
+public class OpaLayout extends FrameLayout implements ButtonInterface {
 
     private static final int ANIMATION_STATE_NONE = 0;
     private static final int ANIMATION_STATE_DIAMOND = 1;
@@ -66,7 +65,6 @@ public class OpaLayout extends FrameLayout implements NavBarButtonProvider.Butto
     private View mBlue;
     private View mGreen;
     private View mYellow;
-    private View mWhite;
 //    private View mHalo;
 
     private View mTop;
@@ -294,8 +292,8 @@ public class OpaLayout extends FrameLayout implements NavBarButtonProvider.Butto
         set.add(animator4);
         set.add(getScaleAnimatorX(mGreen, 1.0f, OpaLayout.DOTS_RESIZE_DURATION, mDotsFullSizeInterpolator));
         set.add(getScaleAnimatorY(mGreen, 1.0f, OpaLayout.DOTS_RESIZE_DURATION, mDotsFullSizeInterpolator));
-        final Animator scaleAnimatorX = getScaleAnimatorX(mWhite, 1.0f, OpaLayout.HOME_REAPPEAR_DURATION, mFastOutSlowInInterpolator);
-        final Animator scaleAnimatorY = getScaleAnimatorY(mWhite, 1.0f, OpaLayout.HOME_REAPPEAR_DURATION, mFastOutSlowInInterpolator);
+        final Animator scaleAnimatorX = getScaleAnimatorX(mHome, 1.0f, OpaLayout.HOME_REAPPEAR_DURATION, mFastOutSlowInInterpolator);
+        final Animator scaleAnimatorY = getScaleAnimatorY(mHome, 1.0f, OpaLayout.HOME_REAPPEAR_DURATION, mFastOutSlowInInterpolator);
 //        final Animator scaleAnimatorX2 = getScaleAnimatorX(mHalo, 1.0f, OpaLayout.HOME_REAPPEAR_DURATION, mFastOutSlowInInterpolator);
 //        final Animator scaleAnimatorY2 = getScaleAnimatorY(mHalo, 1.0f, OpaLayout.HOME_REAPPEAR_DURATION, mFastOutSlowInInterpolator);
         scaleAnimatorX.setStartDelay(OpaLayout.HOME_REAPPEAR_ANIMATION_OFFSET);
@@ -330,8 +328,8 @@ public class OpaLayout extends FrameLayout implements NavBarButtonProvider.Butto
         set.add(getDeltaAnimatorX(mRight, mDiamondInterpolator, getPxVal(R.dimen.opa_diamond_translation), OpaLayout.DIAMOND_ANIMATION_DURATION));
         set.add(getScaleAnimatorX(mRight, OpaLayout.DIAMOND_DOTS_SCALE_FACTOR, OpaLayout.DIAMOND_ANIMATION_DURATION, mFastOutSlowInInterpolator));
         set.add(getScaleAnimatorY(mRight, OpaLayout.DIAMOND_DOTS_SCALE_FACTOR, OpaLayout.DIAMOND_ANIMATION_DURATION, mFastOutSlowInInterpolator));
-        set.add(getScaleAnimatorX(mWhite, OpaLayout.DIAMOND_HOME_SCALE_FACTOR, OpaLayout.DIAMOND_ANIMATION_DURATION, mFastOutSlowInInterpolator));
-        set.add(getScaleAnimatorY(mWhite, OpaLayout.DIAMOND_HOME_SCALE_FACTOR, OpaLayout.DIAMOND_ANIMATION_DURATION, mFastOutSlowInInterpolator));
+        set.add(getScaleAnimatorX(mHome, OpaLayout.DIAMOND_HOME_SCALE_FACTOR, OpaLayout.DIAMOND_ANIMATION_DURATION, mFastOutSlowInInterpolator));
+        set.add(getScaleAnimatorY(mHome, OpaLayout.DIAMOND_HOME_SCALE_FACTOR, OpaLayout.DIAMOND_ANIMATION_DURATION, mFastOutSlowInInterpolator));
 //        set.add(getScaleAnimatorX(mHalo, OpaLayout.HALO_SCALE_FACTOR, OpaLayout.MIN_DIAMOND_DURATION, mFastOutSlowInInterpolator));
 //        set.add(getScaleAnimatorY(mHalo, OpaLayout.HALO_SCALE_FACTOR, OpaLayout.MIN_DIAMOND_DURATION, mFastOutSlowInInterpolator));
         getLongestAnim(set).addListener((Animator.AnimatorListener)new AnimatorListenerAdapter() {
@@ -363,8 +361,8 @@ public class OpaLayout extends FrameLayout implements NavBarButtonProvider.Butto
             set.add(getDeltaAnimatorY(mYellow, mFastOutSlowInInterpolator, -getPxVal(R.dimen.opa_line_y_translation), OpaLayout.LINE_ANIMATION_DURATION_X));
             set.add(getDeltaAnimatorX(mGreen, mFastOutSlowInInterpolator, getPxVal(R.dimen.opa_line_x_trans_bg), OpaLayout.LINE_ANIMATION_DURATION_Y));
         }
-        set.add(getScaleAnimatorX(mWhite, 0.0f, OpaLayout.HOME_RESIZE_DURATION, mHomeDisappearInterpolator));
-        set.add(getScaleAnimatorY(mWhite, 0.0f, OpaLayout.HOME_RESIZE_DURATION, mHomeDisappearInterpolator));
+        set.add(getScaleAnimatorX(mHome, 0.0f, OpaLayout.HOME_RESIZE_DURATION, mHomeDisappearInterpolator));
+        set.add(getScaleAnimatorY(mHome, 0.0f, OpaLayout.HOME_RESIZE_DURATION, mHomeDisappearInterpolator));
 //        set.add(getScaleAnimatorX(mHalo, 0.0f, OpaLayout.HOME_RESIZE_DURATION, mHomeDisappearInterpolator));
 //        set.add(getScaleAnimatorY(mHalo, 0.0f, OpaLayout.HOME_RESIZE_DURATION, mHomeDisappearInterpolator));
         getLongestAnim(set).addListener((Animator.AnimatorListener)new AnimatorListenerAdapter() {
@@ -397,8 +395,8 @@ public class OpaLayout extends FrameLayout implements NavBarButtonProvider.Butto
         set.add(getTranslationAnimatorY(mYellow, mRetractInterpolator, OpaLayout.RETRACT_ANIMATION_DURATION));
         set.add(getScaleAnimatorX(mYellow, 1.0f, OpaLayout.RETRACT_ANIMATION_DURATION, mRetractInterpolator));
         set.add(getScaleAnimatorY(mYellow, 1.0f, OpaLayout.RETRACT_ANIMATION_DURATION, mRetractInterpolator));
-        set.add(getScaleAnimatorX(mWhite, 1.0f, OpaLayout.RETRACT_ANIMATION_DURATION, mRetractInterpolator));
-        set.add(getScaleAnimatorY(mWhite, 1.0f, OpaLayout.RETRACT_ANIMATION_DURATION, mRetractInterpolator));
+        set.add(getScaleAnimatorX(mHome, 1.0f, OpaLayout.RETRACT_ANIMATION_DURATION, mRetractInterpolator));
+        set.add(getScaleAnimatorY(mHome, 1.0f, OpaLayout.RETRACT_ANIMATION_DURATION, mRetractInterpolator));
 //        set.add(getScaleAnimatorX(mHalo, 1.0f, OpaLayout.RETRACT_ANIMATION_DURATION, mFastOutSlowInInterpolator));
 //        set.add(getScaleAnimatorY(mHalo, 1.0f, OpaLayout.RETRACT_ANIMATION_DURATION, mFastOutSlowInInterpolator));
         getLongestAnim(set).addListener((Animator.AnimatorListener)new AnimatorListenerAdapter() {
@@ -487,53 +485,52 @@ public class OpaLayout extends FrameLayout implements NavBarButtonProvider.Butto
         mBlue = findViewById(R.id.blue);
         mYellow = findViewById(R.id.yellow);
         mGreen = findViewById(R.id.green);
-        mWhite = findViewById(R.id.white);
-//        mHalo = findViewById(R.id.halo);
-        mHome = (KeyButtonView) findViewById(R.id.home_button);
+	//        mHalo = findViewById(R.id.halo);
+		mHome = (KeyButtonView) findViewById(R.id.home_button);
 
-        setOpaEnabled(true);
+		setOpaEnabled(true);
 
-        hideAllOpa();
-    }
+		hideAllOpa();
+	    }
 
-    public boolean onInterceptTouchEvent(MotionEvent ev) {
-        if (!mOpaEnabled) {
-            return false;
-        }
-        switch (ev.getAction()) {
-            case 0: {
-                if (!mCurrentAnimators.isEmpty()) {
-                    if (mAnimationState != OpaLayout.ANIMATION_STATE_RETRACT) {
-                        return false;
-                    }
-                    endCurrentAnimation();
-                }
-                mStartTime = SystemClock.elapsedRealtime();
-                mLongClicked = false;
-                mIsPressed = true;
-                startDiamondAnimation();
-                removeCallbacks(mCheckLongPress);
-                postDelayed(mCheckLongPress, (long)ViewConfiguration.getLongPressTimeout());
-                return false;
-            }
-            case 1:
-            case 3: {
-                if (mAnimationState == OpaLayout.ANIMATION_STATE_DIAMOND) {
-                    final long elapsedRealtime = SystemClock.elapsedRealtime();
-                    final long mStartTime = this.mStartTime;
-                    removeCallbacks(mRetract);
-                    postDelayed(mRetract, 100L - (elapsedRealtime - mStartTime));
-                    removeCallbacks(mCheckLongPress);
-                    return false;
-                }
-                int n;
-                if (!mIsPressed || mLongClicked) {
-                    n = 0;
-                } else {
-                    n = 1;
-                }
-                mIsPressed = false;
-                if (n != 0) {
+	    public boolean onInterceptTouchEvent(MotionEvent ev) {
+		if (!mOpaEnabled) {
+		    return false;
+		}
+		switch (ev.getAction()) {
+		    case 0: {
+			if (!mCurrentAnimators.isEmpty()) {
+			    if (mAnimationState != OpaLayout.ANIMATION_STATE_RETRACT) {
+				return false;
+			    }
+			    endCurrentAnimation();
+			}
+			mStartTime = SystemClock.elapsedRealtime();
+			mLongClicked = false;
+			mIsPressed = true;
+			startDiamondAnimation();
+			removeCallbacks(mCheckLongPress);
+			postDelayed(mCheckLongPress, (long)ViewConfiguration.getLongPressTimeout());
+			return false;
+		    }
+		    case 1:
+		    case 3: {
+			if (mAnimationState == OpaLayout.ANIMATION_STATE_DIAMOND) {
+			    final long elapsedRealtime = SystemClock.elapsedRealtime();
+			    final long mStartTime = this.mStartTime;
+			    removeCallbacks(mRetract);
+			    postDelayed(mRetract, 100L - (elapsedRealtime - mStartTime));
+			    removeCallbacks(mCheckLongPress);
+			    return false;
+			}
+			int n;
+			if (!mIsPressed || mLongClicked) {
+			    n = 0;
+			} else {
+			    n = 1;
+			}
+			mIsPressed = false;
+			if (n != 0) {
                     mRetract.run();
                     return false;
                 }
@@ -548,12 +545,12 @@ public class OpaLayout extends FrameLayout implements NavBarButtonProvider.Butto
     }
 
     public void setImageDrawable(Drawable drawable) {
-        ((ImageView) mWhite).setImageDrawable(drawable);
+        ((ButtonInterface) mHome).setImageDrawable(drawable);
     }
 
-    public void setImageResource(int resId) {
-        ((ImageView) mWhite).setImageResource(resId);
-    }
+ //   public void setImageResource(int resId) {
+        //((ButtonInterface) mHome).setImageResource(resId);
+   // }
 
     public void setVertical(boolean vertical) {
         mIsVertical = mIsVertical;
@@ -571,7 +568,7 @@ public class OpaLayout extends FrameLayout implements NavBarButtonProvider.Butto
     }
 
     public void setDarkIntensity(float intensity) {
-       mHome.setDarkIntensity(intensity); 
+        ((ButtonInterface) mHome).setDarkIntensity(intensity);
     }
 
     public void setOnLongClickListener(View.OnLongClickListener l) {
