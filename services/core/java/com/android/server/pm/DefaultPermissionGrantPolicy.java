@@ -834,6 +834,7 @@ final class DefaultPermissionGrantPolicy {
                 grantRuntimePermissionsLPw(vendingPackage, SMS_PERMISSIONS, userId);
                 grantRuntimePermissionsLPw(vendingPackage, STORAGE_PERMISSIONS, userId);
             }
+          }
         }
     }
 

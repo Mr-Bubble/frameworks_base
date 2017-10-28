@@ -506,6 +506,7 @@ public class StatusBar extends SystemUI implements DemoMode,
         : null;
 
     private ScreenPinningRequest mScreenPinningRequest;
+    private ConfigurationListener mConfigurationListener;
 
     private final MetricsLogger mMetricsLogger = Dependency.get(MetricsLogger.class);
 
