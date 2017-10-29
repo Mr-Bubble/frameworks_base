@@ -4946,7 +4946,7 @@ public class StatusBar extends SystemUI implements DemoMode,
      * @return bottom area view
      */
     public KeyguardBottomAreaView getKeyguardBottomAreaView() {
-        return mNavigationBar != null ? (NavigationBarView) mNavigationBar.getView() : null;
+        return mNotificationPanel.getKeyguardBottomAreaView();
     }
 
     // ---------------------- DragDownHelper.OnDragDownListener ------------------------------------
