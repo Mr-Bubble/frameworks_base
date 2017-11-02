@@ -828,7 +828,7 @@
     <dimen name="bottom_padding">48dp</dimen>
     <dimen name="edge_margin">16dp</dimen>
 
-    <dimen name="rounded_corner_radius">0dp</dimen>
+    <dimen name="rounded_corner_radius">20dp</dimen>
     <dimen name="rounded_corner_content_padding">8dp</dimen>
 
     <!-- Intended corner radius when drawing the mobile signal -->
